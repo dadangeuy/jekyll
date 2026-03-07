@@ -1,0 +1,9 @@
+services:
+  build:
+    image: ruby:4.0.1-bookworm
+    working_dir: /usr/src/app
+    command: ["sh", "-c", "bundle install && bundle exec jekyll build"]
+    environment:
+      - JEKYLL_ENV=production
+    volumes:
+      - ..:/usr/src/app

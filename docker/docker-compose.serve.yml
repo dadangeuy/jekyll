@@ -1,0 +1,11 @@
+services:
+  serve:
+    image: ruby:4.0.1-bookworm
+    working_dir: /usr/src/app
+    command: ["sh", "-c", "bundle install && bundle exec jekyll serve -H 0.0.0.0"]
+    environment:
+      - JEKYLL_ENV=development
+    volumes:
+      - ..:/usr/src/app
+    ports:
+      - "4000:4000"
