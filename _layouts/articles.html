@@ -1,68 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="antialiased">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Articles — {{ site.title }}</title>
-  <meta name="description" content="All articles by {{ site.author.name | default: site.title }}." />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            serif: ['Lora', 'Georgia', 'serif'],
-            sans:  ['DM Sans', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    body { font-family: 'DM Sans', sans-serif; }
-    .font-serif { font-family: 'Lora', Georgia, serif; }
-
-    *, *::before, *::after {
-      transition: background-color 0.2s, border-color 0.2s, color 0.15s;
-    }
-
-    /* Avatar ring */
-    .avatar-ring {
-      background: conic-gradient(from 180deg, #a78bfa, #6366f1, #818cf8, #c4b5fd, #a78bfa);
-      padding: 2px;
-      border-radius: 9999px;
-    }
-
-    /* Fade-in animation */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .fade-up          { animation: fadeUp 0.45s ease both; }
-    .delay-1          { animation-delay: 0.08s; }
-    .delay-2          { animation-delay: 0.16s; }
-
-    /* Stagger each article row */
-    .article-row { opacity: 0; animation: fadeUp 0.4s ease both; }
-
-    /* Vertical timeline line on desktop */
-    .timeline-line {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, #6366f1 10%, #a78bfa 90%, transparent);
-    }
-  </style>
-</head>
+{% include head.html %}
 
 <body class="bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 min-h-screen">
 
