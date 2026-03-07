@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title | default: site.title }}</title>
+    <meta name="description" content="{{ site.description }}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+          darkMode: 'class',
+          theme: {
+            extend: {
+              fontFamily: {
+                serif: ['Lora', 'Georgia', 'serif'],
+                sans: ['DM Sans', 'sans-serif'],
+              }
+            }
+          }
+        }
+    </script>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .font-serif { font-family: 'Lora', Georgia, serif; }
+        /* Smooth dark mode transitions */
+        *, *::before, *::after { transition: background-color 0.2s, border-color 0.2s, color 0.15s; }
+        /* Decorative ring on avatar */
+        .avatar-ring {
+          background: conic-gradient(from 180deg, #a78bfa, #6366f1, #818cf8, #c4b5fd, #a78bfa);
+          padding: 2px;
+          border-radius: 9999px;
+        }
+        /* Fade-in animation */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.5s ease both; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+
+<body class="bg-zinc-50 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 min-h-screen">
+
+<!-- ───────────────────────── NAVBAR ───────────────────────── -->
+<header class="sticky top-0 z-50 bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur border-b border-zinc-200 dark:border-zinc-800">
+    <div class="max-w-3xl mx-auto px-6 flex items-center justify-between h-14">
+
+        <!-- Name / logo -->
+        <a href="/" class="font-serif text-lg font-semibold tracking-tight text-zinc-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            {{ site.title }}
+        </a>
+
+        <!-- Nav links -->
+        <nav class="hidden sm:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+            <a href="/about"     class="hover:text-zinc-900 dark:hover:text-white transition-colors">About</a>
+            <a href="/articles"  class="hover:text-zinc-900 dark:hover:text-white transition-colors">Articles</a>
+            <a href="/projects"  class="hover:text-zinc-900 dark:hover:text-white transition-colors">Projects</a>
+            <a href="/uses"      class="hover:text-zinc-900 dark:hover:text-white transition-colors">Uses</a>
+        </nav>
+
+        <!-- Dark mode toggle -->
+        <button id="themeToggle" aria-label="Toggle dark mode"
+                class="ml-4 rounded-full p-2 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+            <!-- Sun icon (shown in dark mode) -->
+            <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+            </svg>
+            <!-- Moon icon (shown in light mode) -->
+            <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+            </svg>
+        </button>
+
+    </div>
+</header>
+
+<main class="max-w-3xl mx-auto px-6 pb-24">
+
+    <!-- ───────────────────────── HERO ───────────────────────── -->
+    <section class="pt-16 pb-14 flex flex-col sm:flex-row sm:items-center gap-8 fade-up">
+
+        {% assign author = site.data.author %}
+        <!-- Avatar -->
+        <div class="shrink-0">
+            <div class="avatar-ring inline-block">
+                <div class="rounded-full overflow-hidden w-20 h-20 bg-zinc-200 dark:bg-zinc-700">
+                    <img src="{{ author.avatar }}" alt="{{ author.name }}" class="w-full h-full object-cover" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Bio -->
+        <div>
+            <h1 class="font-serif text-3xl sm:text-4xl font-semibold text-zinc-900 dark:text-white leading-tight">
+                {{ author.name }}
+            </h1>
+            <p class="mt-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+                {{ author.tagline }}
+            </p>
+            <p class="mt-3 text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+                {{ author.bio }}
+            </p>
+
+            <!-- Social links -->
+            <div class="mt-5 flex items-center gap-4">
+                {% if site.author.twitter %}
+                <a href="https://twitter.com/{{ site.author.twitter }}" target="_blank" rel="noopener" aria-label="Twitter"
+                   class="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                {% endif %}
+                {% if site.author.github %}
+                <a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener" aria-label="GitHub"
+                   class="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+                {% endif %}
+                {% if site.author.linkedin %}
+                <a href="https://linkedin.com/in/{{ site.author.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn"
+                   class="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                {% endif %}
+                {% if site.author.email %}
+                <a href="mailto:{{ site.author.email }}" aria-label="Email"
+                   class="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <hr class="border-zinc-200 dark:border-zinc-800" />
+
+    <!-- ─────────────────── RECENT ARTICLES ─────────────────── -->
+    <section class="pt-12 fade-up delay-1">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="font-serif text-xl font-semibold text-zinc-900 dark:text-white">Recent Articles</h2>
+            <a href="/articles" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+                All articles →
+            </a>
+        </div>
+
+        <div class="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
+            {% assign recent_posts = site.posts | limit: 4 %}
+            {% for post in recent_posts %}
+            <article class="py-5 group">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <time class="text-xs text-zinc-400 dark:text-zinc-500 font-medium uppercase tracking-wide">
+                            {{ post.date | date: "%b %-d, %Y" }}
+                        </time>
+                        <h3 class="mt-1 font-serif font-semibold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                            <a href="{{ post.url }}">{{ post.title }}</a>
+                        </h3>
+                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2">
+                            {{ post.excerpt | strip_html | truncate: 140 }}
+                        </p>
+                        <a href="{{ post.url }}" class="mt-2 inline-flex items-center gap-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
+                            Read article
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% else %}
+            <p class="py-6 text-sm text-zinc-400 dark:text-zinc-500 italic">No articles yet — check back soon.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Experiences -->
+    {% include experiences.html title="Educations" experiences=site.data.educations %}
+    {% include experiences.html title="Works" experiences=site.data.works %}
+
+    <!-- ─────────────────── PHOTOS STRIP ─────────────────── -->
+    {% if site.data.photos %}
+    <section class="pt-12 fade-up delay-3">
+        <h2 class="font-serif text-xl font-semibold text-zinc-900 dark:text-white mb-6">Photos</h2>
+        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+            {% for photo in site.data.photos limit:6 %}
+            <div class="aspect-square rounded-xl overflow-hidden bg-zinc-200 dark:bg-zinc-700">
+                <img src="{{ photo.src }}" alt="{{ photo.alt }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+</main>
+
+<!-- ───────────────────────── FOOTER ───────────────────────── -->
+<footer class="border-t border-zinc-200 dark:border-zinc-800">
+    <div class="max-w-3xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-400 dark:text-zinc-500">
+        <nav class="flex items-center gap-5">
+            <a href="/about"    class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">About</a>
+            <a href="/articles" class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">Articles</a>
+            <a href="/projects" class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">Projects</a>
+            <a href="/uses"     class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">Uses</a>
+        </nav>
+        <p>© {{ site.time | date: "%Y" }} {{ site.author.name | default: site.title }}. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Dark mode script -->
+<script>
+    const html = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const sun = document.getElementById('iconSun');
+    const moon = document.getElementById('iconMoon');
+
+    // Load saved preference or system default
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      html.classList.add('dark');
+      sun.classList.remove('hidden');
+      moon.classList.add('hidden');
+    }
+
+    toggle.addEventListener('click', () => {
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      sun.classList.toggle('hidden', !isDark);
+      moon.classList.toggle('hidden', isDark);
+    });
+</script>
+
+</body>
+</html>
