@@ -53,3 +53,13 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+collections:
+  data-structures-and-algorithms:
+    output: true
+    permalink: /data-structures-and-algorithms/:name
+
+header_pages:
+  - index.markdown
+  - about.markdown
+  - data-structures-and-algorithms.md
