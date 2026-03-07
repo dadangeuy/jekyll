@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — {{ site.title }}</title>
+  <meta name="description" content="Things I've built, shipped, and open-sourced." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Lora', 'Georgia', 'serif'],
+            sans:  ['DM Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    .font-serif { font-family: 'Lora', Georgia, serif; }
+
+    *, *::before, *::after {
+      transition: background-color 0.2s, border-color 0.2s, color 0.15s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up  { animation: fadeUp 0.45s ease both; }
+    .delay-1  { animation-delay: 0.08s; }
+    .delay-2  { animation-delay: 0.16s; }
+
+    .project-card { opacity: 0; animation: fadeUp 0.4s ease both; }
+
+    /* Logo placeholder shimmer */
+    .logo-placeholder {
+      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    }
+    .dark .logo-placeholder {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    }
+
+    /* Link row hover arrow nudge */
+    .link-arrow { transition: transform 0.15s ease; }
+    a:hover .link-arrow { transform: translateX(2px); }
+  </style>
+</head>
+
+<body class="bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 min-h-screen">
+
+  <!-- ───────────────────────── NAVBAR ───────────────────────── -->
+  <header class="sticky top-0 z-50 bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur border-b border-zinc-200 dark:border-zinc-800">
+    <div class="max-w-3xl mx-auto px-6 flex items-center justify-between h-14">
+
+      <a href="/" class="font-serif text-lg font-semibold tracking-tight text-zinc-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+        {{ site.title | default: "Your Name" }}
+      </a>
+
+      <nav class="hidden sm:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+        <a href="/about"    class="hover:text-zinc-900 dark:hover:text-white transition-colors">About</a>
+        <a href="/articles" class="hover:text-zinc-900 dark:hover:text-white transition-colors">Articles</a>
+        <a href="/projects" class="text-zinc-900 dark:text-white font-semibold">Projects</a>
+        <a href="/uses"     class="hover:text-zinc-900 dark:hover:text-white transition-colors">Uses</a>
+      </nav>
+
+      <button id="themeToggle" aria-label="Toggle dark mode"
+        class="ml-4 rounded-full p-2 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+        <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+        </svg>
+        <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 pb-24">
+
+    <!-- ───────────────────── PAGE HEADER ───────────────────── -->
+    <div class="pt-14 pb-10 fade-up">
+      <h1 class="font-serif text-4xl font-semibold text-zinc-900 dark:text-white">Projects</h1>
+      <p class="mt-3 text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
+        {{ page.description | default: "Things I've designed, built, and shipped. A mix of open-source tools, side projects, and experiments that got interesting enough to share." }}
+      </p>
+    </div>
+
+    <!-- ─────────────────── PROJECT GRID ─────────────────────── -->
+    {% assign projects = site.data.projects %}
+
+    {% if projects %}
+
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 fade-up delay-1">
+      {% assign card_delay = 0 %}
+      {% for project in projects %}
+      {% assign card_delay = forloop.index | times: 60 %}
+      <li class="project-card group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-6 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-sm transition-all"
+          style="animation-delay: {{ card_delay }}ms">
+
+        <!-- Project logo / icon -->
+        <div class="mb-5 flex items-center justify-between">
+          <div class="w-10 h-10 rounded-xl overflow-hidden logo-placeholder flex items-center justify-center shrink-0">
+            {% if project.logo %}
+              <img src="{{ project.logo }}" alt="{{ project.name }} logo" class="w-full h-full object-contain p-1.5" />
+            {% else %}
+              <!-- Inline SVG: generic project icon -->
+              <svg class="w-5 h-5 text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/>
+              </svg>
+            {% endif %}
+          </div>
+
+          <!-- Status badge -->
+          {% if project.status %}
+          <span class="text-xs font-medium px-2 py-0.5 rounded-full
+            {% case project.status %}
+              {% when 'active' %}   bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800
+              {% when 'archived' %} bg-zinc-100 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-600
+              {% when 'wip' %}      bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800
+              {% else %}            bg-zinc-100 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400
+            {% endcase %}">
+            {% case project.status %}
+              {% when 'active' %}   Active
+              {% when 'archived' %} Archived
+              {% when 'wip' %}      In progress
+              {% else %}            {{ project.status }}
+            {% endcase %}
+          </span>
+          {% endif %}
+        </div>
+
+        <!-- Name + description -->
+        <h2 class="font-serif font-semibold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+          {{ project.name }}
+        </h2>
+        <p class="mt-1.5 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed flex-1">
+          {{ project.description }}
+        </p>
+
+        <!-- Tech stack tags -->
+        {% if project.stack %}
+        <div class="mt-4 flex flex-wrap gap-1.5">
+          {% for tech in project.stack %}
+          <span class="text-xs font-medium bg-zinc-100 dark:bg-zinc-700/60 text-zinc-600 dark:text-zinc-400 rounded-md px-2 py-0.5">
+            {{ tech }}
+          </span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Links row -->
+        <div class="mt-5 pt-4 border-t border-zinc-100 dark:border-zinc-700/60 flex items-center gap-4">
+
+          {% if project.url %}
+          <a href="{{ project.url }}" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+            </svg>
+            Live site
+            <svg class="w-3 h-3 link-arrow" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+          {% endif %}
+
+          {% if project.github %}
+          <a href="{{ project.github }}" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+            GitHub
+            <svg class="w-3 h-3 link-arrow" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+          {% endif %}
+
+          {% if project.npm %}
+          <a href="{{ project.npm }}" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z"/>
+            </svg>
+            npm
+            <svg class="w-3 h-3 link-arrow" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+          {% endif %}
+
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+
+    <!-- ── Placeholder cards shown when _data/projects.yml doesn't exist yet ── -->
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 fade-up delay-1">
+      {% assign placeholders = "My Open Source Tool,A CLI utility that automates the boring parts of your dev workflow. Written in Go., Ruby|My Web App,A full-stack SaaS I built to scratch my own itch. Deployed on Fly.io., Rails|Design System,A component library and design token system used across multiple projects., React|Data Pipeline,An ETL pipeline that processes event data at scale and pipes it into a dashboard., Python" | split: "|" %}
+
+      {% for item in placeholders %}
+        {% assign parts = item | split: "," %}
+        {% assign card_delay = forloop.index | times: 60 %}
+        <li class="project-card group relative flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800/40 p-6"
+            style="animation-delay: {{ card_delay }}ms">
+          <div class="mb-5 flex items-center justify-between">
+            <div class="w-10 h-10 rounded-xl logo-placeholder flex items-center justify-center">
+              <svg class="w-5 h-5 text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/>
+              </svg>
+            </div>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Active</span>
+          </div>
+          <h2 class="font-serif font-semibold text-zinc-900 dark:text-white">{{ parts[0] }}</h2>
+          <p class="mt-1.5 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed flex-1">{{ parts[1] }}</p>
+          <div class="mt-4 flex flex-wrap gap-1.5">
+            <span class="text-xs font-medium bg-zinc-100 dark:bg-zinc-700/60 text-zinc-600 dark:text-zinc-400 rounded-md px-2 py-0.5">{{ parts[2] }}</span>
+          </div>
+          <div class="mt-5 pt-4 border-t border-zinc-100 dark:border-zinc-700/60 flex items-center gap-4">
+            <span class="text-xs text-zinc-400 dark:text-zinc-600 italic">Add links in _data/projects.yml</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% endif %}
+
+  </main>
+
+  <!-- ───────────────────────── FOOTER ───────────────────────── -->
+  <footer class="border-t border-zinc-200 dark:border-zinc-800">
+    <div class="max-w-3xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-400 dark:text-zinc-500">
+      <nav class="flex items-center gap-5">
+        <a href="/about"    class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">About</a>
+        <a href="/articles" class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">Articles</a>
+        <a href="/projects" class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">Projects</a>
+        <a href="/uses"     class="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">Uses</a>
+      </nav>
+      <p>© {{ site.time | date: "%Y" }} {{ site.author.name | default: site.title }}. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const html    = document.documentElement;
+    const toggle  = document.getElementById('themeToggle');
+    const sun     = document.getElementById('iconSun');
+    const moon    = document.getElementById('iconMoon');
+
+    const saved       = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      html.classList.add('dark');
+      sun.classList.remove('hidden');
+      moon.classList.add('hidden');
+    }
+    toggle.addEventListener('click', () => {
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      sun.classList.toggle('hidden', !isDark);
+      moon.classList.toggle('hidden', isDark);
+    });
+  </script>
+
+</body>
+</html>
