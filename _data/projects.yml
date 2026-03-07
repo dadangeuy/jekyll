@@ -1,43 +1,12 @@
-# _data/projects.yml
-# Each project card on /projects is driven by this file.
-#
-# Fields:
-#   name        (required) — project display name
-#   description (required) — one or two sentence summary
-#   status      — active | wip | archived  (controls the badge color)
-#   logo        — path to logo image, e.g. /assets/logos/myproject.png
-#   stack       — list of tech tags shown at the bottom of the card
-#   url         — live site / product URL
-#   github      — full GitHub URL
-#   npm         — full npm package URL
-
-- name: "My CLI Tool"
-  description: "A command-line utility that automates the tedious parts of your development workflow. Written in Go, zero dependencies."
+- name: 'Wiki: Data Structures & Algorithms'
+  description: 'Analysis of Data Structures & Algorithms problems from various platforms.'
   status: active
-  logo: ""
-  stack: [Go, CLI, GitHub Actions]
-  github: "https://github.com/yourusername/my-cli-tool"
-  url: ""
-
-- name: "My Web App"
-  description: "A full-stack SaaS I built to scratch my own itch. Handles authentication, billing, and team management out of the box."
+  logo: '/assets/applications/docmost.ico'
+  stack: ['Docmost']
+  url: 'https://wiki.rizaldi.org/share/z9f3lp8v5f/p/data-structures-and-algorithms-CutRTg0Fmn'
+- name: 'Watchlist: Indonesia Stock Exchange'
+  description: 'Measure the performance of ~1000 public companies listed on Indonesia.'
   status: active
-  logo: ""
-  stack: [Rails, PostgreSQL, Tailwind]
-  url: "https://mywebapp.example.com"
-  github: "https://github.com/yourusername/my-web-app"
-
-- name: "Design System"
-  description: "A component library and design token system shared across multiple projects. Published to npm."
-  status: active
-  logo: ""
-  stack: [React, TypeScript, Storybook]
-  github: "https://github.com/yourusername/design-system"
-  npm: "https://www.npmjs.com/package/my-design-system"
-
-- name: "Old Side Project"
-  description: "An experiment that taught me a lot but never quite found its audience. Archived but left public for reference."
-  status: archived
-  logo: ""
-  stack: [Python, FastAPI]
-  github: "https://github.com/yourusername/old-project"
+  logo: '/assets/applications/apache-superset.ico'
+  stack: ['Superset', 'Hive', 'n8n', 'MinIO']
+  url: 'https://data.rizaldi.org/superset/dashboard/indonesia-stock-exchange/'
