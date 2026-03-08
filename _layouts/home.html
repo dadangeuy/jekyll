@@ -45,9 +45,9 @@ layout: base
 
     <hr class="dark:border-zinc-800"/>
 
+    {% include projects.html title="Projects" projects=site.data.projects %}
     {% include experiences.html title="Educations" experiences=site.data.educations %}
     {% include experiences.html title="Works" experiences=site.data.works %}
-    {% include projects.html title="Projects" projects=site.data.projects %}
 
     <!-- ─────────────────── PHOTOS STRIP ─────────────────── -->
     {% if site.data.photos %}
