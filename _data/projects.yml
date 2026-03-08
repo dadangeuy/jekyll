@@ -5,7 +5,7 @@
   stack: ['Docmost']
   url: 'https://wiki.rizaldi.org/share/z9f3lp8v5f/p/data-structures-and-algorithms-CutRTg0Fmn'
 - name: 'Watchlist: Indonesia Stock Exchange'
-  description: 'Measure the performance of ~1000 public companies listed on Indonesia.'
+  description: 'Measure the performance of 1.000 public companies in Indonesia.'
   status: active
   logo: '/assets/applications/apache-superset.ico'
   stack: ['Superset', 'Hive', 'n8n', 'MinIO']
