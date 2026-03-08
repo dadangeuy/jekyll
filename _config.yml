@@ -1,8 +1,10 @@
-url: "https://blog.rizaldi.org"
+url: "https://rizaldi.org"
 baseurl: ""
 title: Rizaldi
 email: irsyad.rizaldi97@gmail.com
-description: A Public Space for Irsyad Rizaldi's Mind
+description: >- 
+  A Public Space for my Mind.
+  The site contains the summaries of my experiences and various personal projects.
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
