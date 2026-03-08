@@ -1,0 +1,11 @@
+<section class="pt-12">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-white mb-6">{{ include.title }}</h2>
+    <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        {% for photo in include.photos %}
+        <div class="aspect-square rounded-xl overflow-hidden bg-zinc-200 dark:bg-zinc-700">
+            <img src="{{ photo.src }}" alt="{{ photo.alt }}"
+                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"/>
+        </div>
+        {% endfor %}
+    </div>
+</section>
